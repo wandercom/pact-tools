@@ -1,0 +1,15 @@
+{
+  "version": "1.0.0",
+  "project": {
+    "name": "pact-tools",
+    "description": "Code map exported from Kindex for pact-tools.",
+    "languages": [],
+    "frameworks": [],
+    "analyzedAt": "",
+    "gitCommitHash": ""
+  },
+  "nodes": [],
+  "edges": [],
+  "layers": [],
+  "tour": []
+}

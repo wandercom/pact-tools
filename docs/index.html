@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pact - Contracts Before Code</title>
+  <meta name="description" content="Multi-agent software engineering framework. Contracts before code. Tests as law. Agents that can't cheat.">
+  <meta property="og:title" content="Pact - Contracts Before Code">
+  <meta property="og:description" content="Multi-agent software engineering where architecture is decided before a single line of implementation is written.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://pact.tools/docs/">
+  <style>
+    :root {
+      --bg: #0d1117;
+      --bg-card: #161b22;
+      --bg-code: #1c2128;
+      --border: #30363d;
+      --text: #e6edf3;
+      --text-muted: #8b949e;
+      --accent: #58a6ff;
+      --accent-hover: #79c0ff;
+      --green: #3fb950;
+      --orange: #d29922;
+      --red: #f85149;
+      --purple: #bc8cff;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { color: var(--accent-hover); text-decoration: underline; }
+
+    .container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+    /* Nav */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(13, 17, 23, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      z-index: 100;
+      padding: 16px 0;
+    }
+    nav .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    nav .logo {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
+    nav .logo span { color: var(--accent); }
+    nav .links { display: flex; gap: 24px; align-items: center; }
+    nav .links a { color: var(--text-muted); font-size: 0.9rem; }
+    nav .links a:hover { color: var(--text); text-decoration: none; }
+    .btn {
+      display: inline-block;
+      padding: 8px 20px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.15s ease;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: var(--bg) !important;
+    }
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      text-decoration: none;
+    }
+    .btn-outline {
+      border: 1px solid var(--border);
+      color: var(--text) !important;
+    }
+    .btn-outline:hover {
+      border-color: var(--text-muted);
+      text-decoration: none;
+    }
+
+    /* Hero */
+    .hero {
+      padding: 160px 0 100px;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 24px;
+    }
+    .hero h1 .accent { color: var(--accent); }
+    .hero .subtitle {
+      font-size: 1.35rem;
+      color: var(--text-muted);
+      max-width: 640px;
+      margin: 0 auto 40px;
+      line-height: 1.5;
+    }
+    .hero .cta-group {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .hero .btn { padding: 12px 28px; font-size: 1rem; }
+
+    /* Problem */
+    .problem {
+      padding: 80px 0;
+      border-top: 1px solid var(--border);
+    }
+    .problem-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+    .problem h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+    }
+    .problem p {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      margin-bottom: 16px;
+    }
+    .problem .highlight {
+      color: var(--text);
+      font-weight: 600;
+    }
+    .insight-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 32px;
+    }
+    .insight-box .quote {
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--text);
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+    .insight-box .attribution {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    /* How it works */
+    .how-it-works {
+      padding: 80px 0;
+      border-top: 1px solid var(--border);
+    }
+    .section-header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+    .section-header h2 {
+      font-size: 2.25rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      letter-spacing: -0.02em;
+    }
+    .section-header p {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    .pipeline {
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+      padding: 0 8px;
+    }
+    .pipeline::before {
+      content: '';
+      position: absolute;
+      top: 28px;
+      left: 40px;
+      right: 40px;
+      height: 2px;
+      background: var(--border);
+    }
+    .phase {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      flex: 1;
+    }
+    .phase-dot {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.85rem;
+      margin-bottom: 12px;
+      position: relative;
+      z-index: 1;
+    }
+    .phase:nth-child(1) .phase-dot { background: #1f3a5f; color: var(--accent); border: 2px solid var(--accent); }
+    .phase:nth-child(2) .phase-dot { background: #1f3a5f; color: var(--accent); border: 2px solid var(--accent); }
+    .phase:nth-child(3) .phase-dot { background: #1a3a2a; color: var(--green); border: 2px solid var(--green); }
+    .phase:nth-child(4) .phase-dot { background: #1a3a2a; color: var(--green); border: 2px solid var(--green); }
+    .phase:nth-child(5) .phase-dot { background: #2d2a1a; color: var(--orange); border: 2px solid var(--orange); }
+    .phase-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-align: center;
+      color: var(--text-muted);
+    }
+
+    /* Features */
+    .features {
+      padding: 80px 0;
+      border-top: 1px solid var(--border);
+    }
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .feature-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px;
+      transition: border-color 0.15s ease;
+    }
+    .feature-card:hover { border-color: var(--text-muted); }
+    .feature-icon {
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      display: block;
+    }
+    .feature-card h3 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .feature-card p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      line-height: 1.55;
+    }
+
+    /* Sentinel */
+    .sentinel {
+      padding: 80px 0;
+      border-top: 1px solid var(--border);
+    }
+    .sentinel-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+    .sentinel h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+    }
+    .sentinel p {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      margin-bottom: 16px;
+    }
+    .sentinel-flow {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px;
+      font-family: 'SF Mono', 'Fira Code', 'Fira Mono', Menlo, Consolas, monospace;
+      font-size: 0.85rem;
+      line-height: 1.8;
+      color: var(--text-muted);
+    }
+    .sentinel-flow .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 4px;
+    }
+    .sentinel-flow .arrow { color: var(--accent); min-width: 16px; }
+    .sentinel-flow .label { color: var(--green); }
+    .sentinel-flow .dim { color: #484f58; }
+
+    /* Quick start */
+    .quickstart {
+      padding: 80px 0;
+      border-top: 1px solid var(--border);
+    }
+    .quickstart-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+    .quickstart h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+    .quickstart p {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      margin-bottom: 16px;
+    }
+    pre {
+      background: var(--bg-code);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      overflow-x: auto;
+      font-family: 'SF Mono', 'Fira Code', 'Fira Mono', Menlo, Consolas, monospace;
+      font-size: 0.85rem;
+      line-height: 1.7;
+    }
+    code { font-family: inherit; }
+    .code-comment { color: #484f58; }
+    .code-cmd { color: var(--green); }
+    .code-flag { color: var(--purple); }
+    .code-string { color: #a5d6ff; }
+
+    /* Book */
+    .book {
+      padding: 80px 0;
+      border-top: 1px solid var(--border);
+    }
+    .book-inner {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 48px;
+      text-align: center;
+    }
+    .book-inner h2 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+    .book-inner p {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      max-width: 600px;
+      margin: 0 auto 24px;
+    }
+
+    /* Footer */
+    footer {
+      padding: 40px 0;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+    footer a { color: var(--text-muted); }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2.25rem; }
+      .hero .subtitle { font-size: 1.1rem; }
+      .problem-grid,
+      .sentinel-grid,
+      .quickstart-grid { grid-template-columns: 1fr; }
+      .feature-grid { grid-template-columns: 1fr; }
+      .pipeline { flex-wrap: wrap; gap: 16px; justify-content: center; }
+      .pipeline::before { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="container">
+    <a href="#" class="logo"><span>pact</span></a>
+    <div class="links">
+      <a href="#how-it-works">How It Works</a>
+      <a href="#features">Features</a>
+      <a href="#stack">Stack</a>
+      <a href="#quickstart">Quick Start</a>
+      <a href="/">pact.tools</a>
+      <a href="https://github.com/jmcentire/pact" class="btn btn-outline">GitHub</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="container">
+    <h1>Contracts before code.<br><span class="accent">Tests as law.</span></h1>
+    <p class="subtitle">
+      A plan-first software engineering framework where architecture, contracts,
+      and tests are decided before implementation. Hand the plan to Claude or Codex,
+      or let Pact implement independently, in parallel, even competitively &mdash;
+      with no way to ship code that doesn't honor its contract.
+    </p>
+    <p style="color: var(--text-muted); margin: -20px auto 28px; max-width: 720px;">
+      v1 changes the default: existing automation that expects a full build must add <code>--implement</code>.
+    </p>
+    <pre style="display: inline-block; text-align: left; margin-bottom: 32px; padding: 16px 32px;"><code><span class="code-cmd">pip install</span> pact-agents</code></pre>
+    <div class="cta-group">
+      <a href="https://github.com/jmcentire/pact" class="btn btn-primary">Get Started</a>
+      <a href="https://pypi.org/project/pact-agents/" class="btn btn-outline">PyPI</a>
+      <a href="#how-it-works" class="btn btn-outline">See How It Works</a>
+    </div>
+  </div>
+</section>
+
+<section class="problem">
+  <div class="container">
+    <div class="problem-grid">
+      <div>
+        <h2>LLMs are unreliable reviewers.<br>Tests are perfectly reliable judges.</h2>
+        <p>
+          Every multi-agent coding framework has the same problem: how do you know the code is right?
+          Advisory coordination doesn't work. "Looks good to me" doesn't scale.
+        </p>
+        <p>
+          Pact's answer: <span class="highlight">make the tests first, make them mechanical, and let agents
+          iterate until they pass.</span> No negotiation. No review boards. Pass or fail.
+        </p>
+        <p>
+          Code is cheap &mdash; agents generate it in minutes. Contracts are expensive &mdash; they encode
+          hard-won understanding of what the system actually needs to do. Pact makes that inversion explicit.
+        </p>
+      </div>
+      <div class="insight-box">
+        <p class="quote">
+          "When a module fails in production, the response isn't 'debug the implementation.'
+          It's: add a test that reproduces the failure, flush the implementation, and let
+          an agent rebuild it. The contract got stricter. The next implementation can't
+          have that bug."
+        </p>
+        <p class="attribution">Contracts accumulate the scar tissue of every production incident. They become the real engineering artifact.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="how-it-works" id="how-it-works">
+  <div class="container">
+    <div class="section-header">
+      <h2>Plan first. Implement deliberately. Verify mechanically.</h2>
+      <p>Pact defaults to a contracts-and-tests handoff. Use <code>--implement</code> when Pact should own the remaining phases.</p>
+    </div>
+    <div class="pipeline">
+      <div class="phase">
+        <div class="phase-dot">1-2</div>
+        <span class="phase-label">Interview<br>&amp; Shape</span>
+      </div>
+      <div class="phase">
+        <div class="phase-dot">3</div>
+        <span class="phase-label">Decompose</span>
+      </div>
+      <div class="phase">
+        <div class="phase-dot">4-6</div>
+        <span class="phase-label">Contract<br>Test &amp; Validate</span>
+      </div>
+      <div class="phase">
+        <div class="phase-dot">7-8</div>
+        <span class="phase-label">Implement<br>&amp; Integrate</span>
+      </div>
+      <div class="phase">
+        <div class="phase-dot">8.5</div>
+        <span class="phase-label">Arbiter<br>Gate</span>
+      </div>
+      <div class="phase">
+        <div class="phase-dot">9</div>
+        <span class="phase-label">Polish &amp;<br>Certify</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="features" id="features">
+  <div class="container">
+    <div class="section-header">
+      <h2>Built for the age of AI-generated code</h2>
+      <p>When agents write the code, the contracts, tests, and verification become the real product.</p>
+    </div>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <span class="feature-icon">&#x1f3d7;&#xfe0f;</span>
+        <h3>Contract-First Decomposition</h3>
+        <p>Tasks decompose into 2-7 components. Each gets a typed interface contract and executable tests before any implementation begins.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">&#x26a1;</span>
+        <h3>Parallel Implementation</h3>
+        <p>Independent components implement concurrently. No agent waits on another. Semaphore-limited concurrency keeps costs predictable.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">&#x1f3c1;</span>
+        <h3>Competitive Agents</h3>
+        <p>N agents race on the same component. Best implementation wins &mdash; scored by test pass rate and execution time. The contract is the judge.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">&#x1f30d;</span>
+        <h3>Python, TypeScript &amp; JavaScript</h3>
+        <p>Generate contracts, stubs, and implementations in Python, TypeScript, or plain JavaScript ES6 modules with JSDoc. Vitest for TS/JS, pytest for Python.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">&#x1f50c;</span>
+        <h3>Multi-Provider</h3>
+        <p>Route different roles to different LLMs or coding agents. Anthropic, OpenAI, Gemini, Claude Code, and Codex are supported, including full iterative workspace sessions.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">&#x1f4b0;</span>
+        <h3>Budget-Aware</h3>
+        <p>Per-project spend tracking with content-aware token estimation. Set a budget, let agents work. Multi-window caps prevent runaway costs.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">&#x1f4cb;</span>
+        <h3>Plan-First by Default</h3>
+        <p>Stop after contracts and tests, then let the active Claude or Codex agent implement. Use <code>--implement</code> or <code>pact build</code> when Pact should own the code.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">&#x1f916;</span>
+        <h3>Claude + Codex Native</h3>
+        <p>Shared coding-agent envelopes preserve Kindex context, durable task state, session identity, structured outputs, and contract reconciliation across Claude Code and Codex.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">&#x1f9ed;</span>
+        <h3>Adversarial Review Gate</h3>
+        <p><code>pact review</code> runs Advocate against the implementation and Pact's packaged Simulacrum against architecture and done claims, then persists auditable review artifacts.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">&#x1f50d;</span>
+        <h3>Spec-Compliance Audit</h3>
+        <p>Run <code>pact audit</code> after implementation to verify every requirement in your spec is covered. Get a gap report showing what's covered, partial, or missing.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">&#x1f6a8;</span>
+        <h3>Dysmemic Pressure Detection</h3>
+        <p>The pipeline monitors its own coordination health. Detects the $50-planning-zero-output pattern, cascade failures, and budget stalls. Proposes remedies &mdash; you decide.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">&#x1f527;</span>
+        <h3>User-Controlled Remedies</h3>
+        <p>When health degrades, Pact pauses and proposes fixes via FIFO directive. No silent config changes. The system never reduces its own degrees of freedom without asking.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">&#x1f300;</span>
+        <h3>Wavefront Scheduling</h3>
+        <p>Dependency-driven fan-out. Each component advances through its own phase pipeline as soon as deps are satisfied. No phase-locked waiting.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">&#x1f9e0;</span>
+        <h3>Prompt Caching</h3>
+        <p>Static prompt prefixes cached across API calls. 50-70% input token savings. Cache hit rates tracked in budget metrics. Research results persisted and reused across phases.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">&#x1f3af;</span>
+        <h3>Hidden Acceptance Criteria</h3>
+        <p>Goodhart tests: adversarial hidden tests the agent never sees. Catches hardcoded returns, missing validation, and invariants that hold only for visible inputs. Graduated-disclosure remediation on failure.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">&#x1f6e1;&#xfe0f;</span>
+        <h3>Drift Detection</h3>
+        <p>SHA256 baselines for contracts, tests, and implementations. Detects when artifacts change without version bumps. Staleness tracking classifies components as fresh, aging, or stale.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">&#x1f4a1;</span>
+        <h3>Retrospective Learning</h3>
+        <p>Post-run analysis: cost distribution, failure patterns, largest test suites, actionable lessons. Each run gets smarter from the last.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">&#x1f6d1;</span>
+        <h3>Contract Quality Gates</h3>
+        <p>Anti-cliche enforcement flags vague contract language. Typed side-effect declarations. Optional performance budgets with p95 latency and Big-O constraints.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">&#x1f4d0;</span>
+        <h3>Canonical Types with Validators</h3>
+        <p>Contracts define data structures with domain-specific validators &mdash; range, regex, length, custom rules. Tests verify acceptance and rejection. Implementations render as Pydantic models, Zod schemas, or validated constructors. Not every field needs a validator &mdash; only those with domain semantics worth encoding.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">&#x1f504;</span>
+        <h3>Resume &amp; Error Classification</h3>
+        <p>Transient errors retry with backoff. Systemic failures pause with actionable recommendations. <code>pact resume</code> recovers from any failure without manual state editing.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">&#x1f9e9;</span>
+        <h3>Processing Register</h3>
+        <p>Establishes the cognitive mode (rigorous-analytical, exploratory-generative, etc.) before any domain content. Contracts carry the register. Handoff protocol primes it. Health system monitors drift.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">&#x1f3af;</span>
+        <h3>North-Star Validation</h3>
+        <p>Checks that composed contracts actually fulfill the original task. Extracts action verbs from your spec and verifies coverage. Catches "all tests pass but the system can't do anything."</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">&#x1f4e4;</span>
+        <h3>Handoff Brief Inspector</h3>
+        <p><code>pact handoff</code> renders and validates what each agent actually sees. Check context fences, primer ordering, token budgets, and dependency coverage. Debug coordination at the prompt level.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">&#x2728;</span>
+        <h3>MCP Server</h3>
+        <p>Built-in MCP server for Claude Code and other stdio MCP-compatible clients. Inspect status, validate contracts, check budgets, and resume runs from your agent. <code>pip install pact-agents[mcp]</code></p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">&#x1f9ea;</span>
+        <h3>Smoke Test Generation</h3>
+        <p>Mechanical smoke tests from AST analysis &mdash; no LLM required. <code>pact adopt</code> extracts every public module-level function signature and generates import + callable checks in <code>tests/smoke/</code>. Filters out methods, private functions, and nested functions.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">&#x1f3d7;</span>
+        <h3>Architectural Assessment</h3>
+        <p>Mechanical codebase analysis for structural friction &mdash; no LLM required. <code>pact assess</code> detects hub dependencies, shallow modules, tight coupling (mutual imports + SCCs), scattered logic, and test coverage gaps. Uses Python <code>ast</code> and Tarjan's algorithm. Point it at any Python directory &mdash; no project setup needed.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">&#x1f4c2;</span>
+        <h3>Fully Visible Projects</h3>
+        <p>All project knowledge lives in the project tree &mdash; contracts, source, tests, decomposition, Goodhart tests, standards, learnings. When a teammate clones the repo, they see everything. <code>.pact/</code> contains only ephemeral per-run state that gets regenerated.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">&#x1f50e;</span>
+        <h3>Tool Index</h3>
+        <p>Optional enrichment from <strong>ctags</strong> (symbol index), <strong>cscope</strong> (call graph), <strong>tree-sitter</strong> (full CST, error-tolerant, cross-language), and <strong>kindex</strong> (knowledge graph). Agents get richer context about class hierarchies, callers, existing project knowledge, and durable task state. All tools optional &mdash; graceful degradation. <code>pip install pact-agents[analysis]</code></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="problem" id="benchmark">
+  <div class="container">
+    <div class="problem-grid">
+      <div>
+        <h2>Benchmarked on ICPC World Finals</h2>
+        <p>
+          5 problems, 212 test cases, Claude Opus 4.6. Pact scores <span class="highlight">212/212 (100%)</span>
+          on problems where single-agent Claude Code tops out at 79% (single-shot) or 92% (iterative with 5 retries).
+        </p>
+        <p>
+          The hardest problem &mdash; <span class="highlight">Trailing Digits</span> (2020 World Finals) &mdash; requires
+          O(log n) number theory. Claude Code gets 31/47 even with full test feedback and 5 iterations.
+          Pact's contract pipeline forces the math-first approach and solves it on the first attempt.
+        </p>
+        <p style="margin-top: 16px;">
+          <a href="https://github.com/jmcentire/pact/blob/main/benchmarks/icpc_official/RESULTS.md" class="btn btn-outline">Full Results</a>
+        </p>
+      </div>
+      <div class="insight-box">
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+          <thead>
+            <tr style="border-bottom: 2px solid var(--border);">
+              <th style="text-align: left; padding: 8px 12px; color: var(--text-muted);">Condition</th>
+              <th style="text-align: right; padding: 8px 12px; color: var(--text-muted);">Pass Rate</th>
+              <th style="text-align: right; padding: 8px 12px; color: var(--text-muted);">Cost</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--border);">
+              <td style="padding: 10px 12px;">Claude Code (single-shot)</td>
+              <td style="text-align: right; padding: 10px 12px; color: var(--orange);">79%</td>
+              <td style="text-align: right; padding: 10px 12px; color: var(--text-muted);">$0.60</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border);">
+              <td style="padding: 10px 12px;">Claude Code (iterative, 5x)</td>
+              <td style="text-align: right; padding: 10px 12px; color: var(--orange);">92%</td>
+              <td style="text-align: right; padding: 10px 12px; color: var(--text-muted);">$1.26</td>
+            </tr>
+            <tr>
+              <td style="padding: 10px 12px; font-weight: 600;">Pact</td>
+              <td style="text-align: right; padding: 10px 12px; color: var(--green); font-weight: 700;">100%</td>
+              <td style="text-align: right; padding: 10px 12px; color: var(--text-muted);">~$13</td>
+            </tr>
+          </tbody>
+        </table>
+        <p style="margin-top: 16px; font-size: 0.85rem; color: var(--text-muted);">
+          5 ICPC World Finals problems &middot; 212 test cases &middot; Claude Opus 4.6
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sentinel" id="stack">
+  <div class="container">
+    <div class="sentinel-grid">
+      <div>
+        <h2>One piece of a larger stack</h2>
+        <p>
+          Pact is the contract-first build system. It integrates with companion
+          planning, review, memory, and deployment tools &mdash; all optional, all additive.
+        </p>
+        <p>
+          <strong>Constrain</strong> seeds decomposition with policies and component maps.
+          <strong>Arbiter</strong> gates deployments with blast radius analysis and trust scoring.
+          <strong>Ledger</strong> injects field-level audit assertions into test suites.
+          <strong>Sentinel</strong> watches production, attributes errors via PACT keys, and pushes
+          tightened contracts back. <strong>Kindex</strong> carries durable agent context, task state, and tracked project graph snapshots.
+          <strong>Advocate</strong> and the packaged <strong>Simulacrum</strong> stress-test
+          implementations and claims before the done gate.
+        </p>
+        <p>
+          Every implementation emits structured events with classification metadata.
+          The <strong>access_graph.json</strong> artifact captures what each component reads, writes,
+          and owns &mdash; consumed by Arbiter at phase 8.5 before code ships.
+        </p>
+      </div>
+      <div class="sentinel-flow">
+        <div class="step"><span class="arrow">&#9656;</span> <span><span class="label">Constrain</span> <span class="dim">// policies, component maps, trust</span></span></div>
+        <div class="step"><span class="arrow">&#9656;</span> <span>Pact decomposes, contracts, builds</span></div>
+        <div class="step"><span class="arrow">&#9656;</span> <span>access_graph.json emitted</span></div>
+        <div class="step"><span class="arrow">&#9656;</span> <span><span class="label">Arbiter</span> <span class="dim">// blast radius + trust gate</span></span></div>
+        <div class="step"><span class="arrow">&#9656;</span> <span><span class="label">Ledger</span> <span class="dim">// field-level audit assertions</span></span></div>
+        <div class="step"><span class="arrow">&#9656;</span> <span><span class="label">Advocate + Simulacrum</span> <span class="dim">// implementation + claim review</span></span></div>
+        <div class="step"><span class="arrow">&#9656;</span> <span>Certification artifact produced</span></div>
+        <div class="step"><span class="arrow">&#9656;</span> <span><span class="label">Sentinel</span> <span class="dim">// production monitoring + contract tightening</span></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="quickstart" id="quickstart">
+  <div class="container">
+    <div class="quickstart-grid">
+      <div>
+        <h2>Up and running in 60 seconds</h2>
+        <p>
+          Python 3.12+, two dependencies. <code>pip install pact-agents</code> and go.
+          Generates Python, TypeScript, or JavaScript.
+        </p>
+        <p>
+          Describe your task in <code>task.md</code>, set your standards in <code>sops.md</code>,
+          and let Pact decompose, contract, and test. The active Claude or Codex agent
+          implements after the plan-only handoff; add <code>--implement</code> for a Pact-managed build.
+        </p>
+        <p>
+          The interview now confirms operational maturity, security, privacy,
+          compliance, gating, testing, and monitoring up front. An AI can provide
+          the same choices in <code>build_spec.yaml</code> or via
+          <code>pact init --spec</code>. Build specs are tracked planning input,
+          not a place for secrets or machine-local paths. If scope materially
+          changes after interview, update the spec and rerun interview before
+          regenerating contracts.
+        </p>
+        <p>
+          For higher-bar production work, add the optional <code>production/</code> pack.
+          It keeps trust assertions, control mapping, threat model, live validation,
+          N/A, and done-gate evidence file-backed and machine-checkable without changing
+          ordinary Pact runs. Its static layer checks secrets, dependency inventory,
+          SBOM, and OpenAPI shape without invoking live browser or LLM probes. Set
+          <code>production_artifact_dir</code> when the tracked pack should live elsewhere.
+          The manifest fingerprint and validation age keep stale evidence from passing.
+          Live validation remains required because the pack is a deployment gate, not a runtime substitute.
+        </p>
+        <p style="margin-top: 24px;">
+          <a href="https://github.com/jmcentire/pact" class="btn btn-primary">View on GitHub</a>
+        </p>
+      </div>
+      <div>
+        <pre><code><span class="code-comment"># Install from PyPI</span>
+<span class="code-cmd">pip install</span> pact-agents
+
+<span class="code-comment"># Or with all LLM backends</span>
+<span class="code-cmd">pip install</span> pact-agents<span class="code-flag">[all-backends]</span>
+
+<span class="code-comment"># With code analysis tools (tree-sitter)</span>
+<span class="code-cmd">pip install</span> pact-agents<span class="code-flag">[analysis]</span>
+
+<span class="code-comment"># With packaged Simulacrum review support</span>
+<span class="code-cmd">pip install</span> pact-agents<span class="code-flag">[review]</span>
+
+<span class="code-comment"># Create a project</span>
+<span class="code-cmd">pact init</span> my-project
+<span class="code-comment"># Or initialize from an AI-authored build spec</span>
+<span class="code-cmd">pact init</span> my-project <span class="code-flag">--spec</span> ai-build-spec.yaml
+<span class="code-comment"># Edit my-project/task.md with your task</span>
+<span class="code-comment"># Edit my-project/sops.md with your standards</span>
+
+<span class="code-comment"># Plan-first default: contracts + tests, then agent handoff</span>
+<span class="code-cmd">pact run</span> my-project
+
+<span class="code-comment"># Optional production-readiness pack</span>
+<span class="code-cmd">pact production init</span> my-project
+<span class="code-cmd">pact production fingerprint</span> my-project
+<span class="code-cmd">pact production validate</span> my-project
+
+<span class="code-comment"># Opt into Pact-managed implementation</span>
+<span class="code-cmd">pact run</span> my-project <span class="code-flag">--implement</span>
+
+<span class="code-comment"># Review implementation and done claim</span>
+<span class="code-cmd">pact review</span> . <span class="code-flag">--claim</span> <span class="code-string">"All contract tests pass."</span>
+
+<span class="code-comment"># Or build a single component</span>
+<span class="code-cmd">pact components</span> my-project
+<span class="code-cmd">pact build</span> my-project auth_module</code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="book">
+  <div class="container">
+    <div class="book-inner">
+      <h2>Built on the ideas in <em>Beyond Code</em></h2>
+      <p>
+        Pact is one of three systems built to test the ideas in
+        <strong>Beyond Code: Context, Constraints, and the New Craft of Software</strong>.
+        The book covers the coordination, verification, and specification problems
+        that motivated Pact's design.
+      </p>
+      <a href="https://www.amazon.com/dp/B0GNLTXVC7" class="btn btn-outline">Read the Book</a>
+    </div>
+  </div>
+</section>
+
+<section class="problem" style="padding: 60px 0;">
+  <div class="container">
+    <div class="problem-grid">
+      <div>
+        <h2>From contracts to running services: <a href="https://jmcentire.github.io/baton/" style="color: var(--accent);">Baton</a></h2>
+        <p>
+          Pact produces components with provable interfaces. <strong>Baton</strong> wires them into a running
+          service topology with mock collapse, A/B routing, health monitoring, and self-healing.
+        </p>
+        <p>
+          Start fully mocked, gradually swap to live implementations, canary new versions with weighted
+          routing, and let the custodian auto-recover failures. Together, Pact and Baton cover the full
+          lifecycle from architecture to production.
+        </p>
+        <p style="margin-top: 16px;">
+          <a href="https://jmcentire.github.io/baton/" class="btn btn-outline">Learn about Baton</a>
+        </p>
+      </div>
+      <div class="insight-box">
+        <p class="quote">
+          "Pact builds the pieces with typed contracts. Baton runs them as a circuit &mdash;
+          pre-wired topology, smart adapters, mock collapse, and self-healing.
+          Architecture decisions stay enforced from design through production."
+        </p>
+        <p class="attribution">Circuit-first orchestration for contract-first components.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>MIT License &middot; <a href="https://pypi.org/project/pact-agents/">PyPI</a> &middot; <a href="https://github.com/jmcentire/pact">GitHub</a> &middot; Built by <a href="https://github.com/jmcentire">Jeremy McEntire</a></p>
+  </div>
+</footer>
+
+</body>
+</html>

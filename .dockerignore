@@ -1,0 +1,7 @@
+.git
+.kin
+.DS_Store
+README.md
+fly.toml
+Dockerfile
+nginx.conf

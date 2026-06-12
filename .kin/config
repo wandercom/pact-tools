@@ -1,0 +1,56 @@
+name: pact-tools
+audience: public
+description: >
+  pact.tools landing page and docs mirror for Pact, the contract-first AI software
+  engineering framework.
+
+domains:
+  - contract-first-engineering
+  - ai-software-engineering
+  - documentation
+  - marketing-site
+  - production-readiness
+
+voice:
+  tone: precise, practical, verification-first
+  principles:
+    - Contracts precede code
+    - Tests are executable law
+    - Readiness is explicit before implementation
+    - Production evidence must be machine-checkable
+    - Tool-suite links should remain reciprocal and current
+  anti-patterns:
+    - Treating marketing claims as proof
+    - Hiding readiness assumptions until after implementation
+    - Shipping stale docs or stale release metadata
+    - Breaking suite cross-links
+
+standards:
+  documentation:
+    - Landing page and docs mirror must agree on current release posture
+    - Links to package, source, docs, and suite peers must remain valid
+    - Tracked .kin artifacts remain repo-relative and machine-portable
+  communication:
+    - Lead with the contract-first thesis and concrete operational value
+
+connects_to:
+  - pact
+  - exemplar.tools
+  - signet.tools
+  - kindex.tools
+  - centaur.tools
+  - herald.tools
+  - simulacrum.tools
+  - reeve.tools
+  - perardua.dev
+
+work_policy:
+  require_active_tag: false
+  linear:
+    enabled: false
+    require_issue: false
+  git:
+    block_commit_without_tag: false
+    block_commit_without_linear: false
+    block_push_without_tag: false
+    block_push_without_linear: false

@@ -1,0 +1,14 @@
+# Pact
+
+Pact is a contract-first AI software engineering framework.
+
+Website: https://pact.tools/
+Documentation: https://pact.tools/docs/
+Source: https://github.com/jmcentire/pact
+Package: https://pypi.org/project/pact-agents/
+
+Core idea: decide architecture, contracts, tests, readiness, and production gates before implementation. Pact defaults to plan-only, then hands the implementation to Claude, Codex, or an explicitly enabled Pact implementation phase.
+
+Readiness profile dimensions: operational maturity, security, privacy, compliance, gating, testing, monitoring.
+
+Related suite: https://exemplar.tools, https://signet.tools, https://kindex.tools, https://centaur.tools, https://herald.tools, https://simulacrum.tools, https://reeve.tools, https://perardua.dev

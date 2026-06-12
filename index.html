@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pact — Contracts Before Code</title>
+  <meta name="description" content="Pact is a contract-first AI software engineering framework. Decide architecture, tests, readiness, and gates before implementation.">
+  <link rel="canonical" href="https://pact.tools/">
+  <meta property="og:title" content="Pact — Contracts Before Code">
+  <meta property="og:description" content="Contract-first AI software engineering. Plan first. Test first. Ship only what honors the contract.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://pact.tools/">
+  <meta name="twitter:card" content="summary_large_image">
+  <style>
+    :root {
+      --bg: #08101e;
+      --panel: #0e1929;
+      --panel-2: #111f33;
+      --line: #22344d;
+      --text: #edf5ff;
+      --muted: #9aabc2;
+      --accent: #6ac0ff;
+      --accent-strong: #3998e8;
+      --green: #59d89b;
+      --orange: #e8b36b;
+      --purple: #a98cff;
+      --max: 1120px;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: radial-gradient(circle at top left, #102543 0, var(--bg) 42%); color: var(--text); line-height: 1.6; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { color: #a4dbff; }
+    .shell { max-width: var(--max); margin: 0 auto; padding: 0 24px; }
+    nav { position: sticky; top: 0; z-index: 10; backdrop-filter: blur(18px); background: rgba(8,16,30,.82); border-bottom: 1px solid rgba(34,52,77,.8); }
+    nav .shell { display: flex; justify-content: space-between; align-items: center; gap: 24px; min-height: 72px; }
+    .brand { color: var(--text); font-weight: 760; letter-spacing: -.04em; font-size: 1.2rem; }
+    .brand span { color: var(--accent); }
+    .nav-links { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; font-size: .9rem; }
+    .nav-links a { color: var(--muted); }
+    .nav-links a:hover { color: var(--text); }
+    .button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 11px 17px; border-radius: 8px; font-weight: 700; font-size: .9rem; border: 1px solid var(--line); color: var(--text); background: rgba(255,255,255,.02); }
+    .button.primary { background: linear-gradient(135deg, var(--accent-strong), #5dbbff); color: #07101d; border-color: transparent; }
+    .button:hover { transform: translateY(-1px); }
+    .hero { padding: 104px 0 80px; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); border: 1px solid rgba(106,192,255,.35); padding: 7px 10px; border-radius: 999px; background: rgba(106,192,255,.06); }
+    h1 { max-width: 900px; font-size: clamp(3rem, 8vw, 6rem); line-height: .94; letter-spacing: -.075em; margin: 24px 0; }
+    h1 span { color: var(--accent); }
+    .hero-copy { max-width: 760px; color: var(--muted); font-size: 1.18rem; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+    .hero-meta { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: 54px; }
+    .metric { border: 1px solid var(--line); background: linear-gradient(180deg, rgba(17,31,51,.82), rgba(14,25,41,.82)); border-radius: 12px; padding: 18px; }
+    .metric strong { display: block; font-size: 1.7rem; letter-spacing: -.04em; }
+    .metric span { color: var(--muted); font-size: .82rem; }
+    section { padding: 78px 0; border-top: 1px solid rgba(34,52,77,.72); }
+    h2 { font-size: clamp(2rem, 4vw, 3.3rem); letter-spacing: -.055em; margin: 0 0 12px; }
+    .section-intro { max-width: 720px; color: var(--muted); margin-bottom: 40px; }
+    .grid { display: grid; gap: 18px; }
+    .grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .card { border: 1px solid var(--line); border-radius: 14px; background: linear-gradient(180deg, rgba(17,31,51,.8), rgba(10,18,31,.85)); padding: 24px; }
+    .card h3 { margin: 0 0 10px; letter-spacing: -.025em; }
+    .card p { color: var(--muted); margin: 0; }
+    .tag { display: inline-block; font-size: .7rem; text-transform: uppercase; letter-spacing: .12em; color: var(--green); margin-bottom: 14px; }
+    .pipeline { display: grid; grid-template-columns: repeat(6, minmax(0,1fr)); gap: 12px; }
+    .phase { position: relative; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); padding: 16px; min-height: 126px; }
+    .phase b { color: var(--accent); font-size: .78rem; display: block; margin-bottom: 8px; }
+    .phase span { color: var(--muted); font-size: .88rem; }
+    pre { overflow-x: auto; background: #07101b; border: 1px solid var(--line); border-radius: 12px; padding: 22px; color: #dff3ff; }
+    code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace; font-size: .9em; }
+    .split { display: grid; grid-template-columns: 1.05fr .95fr; gap: 28px; align-items: start; }
+    .list { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+    .list li { border-left: 2px solid var(--accent-strong); padding: 8px 0 8px 14px; color: var(--muted); }
+    .list strong { color: var(--text); }
+    .suite { display: flex; flex-wrap: wrap; gap: 10px; }
+    .suite a { border: 1px solid var(--line); border-radius: 999px; padding: 8px 12px; color: var(--muted); font-size: .84rem; }
+    .suite a.current { color: var(--text); border-color: rgba(106,192,255,.6); background: rgba(106,192,255,.09); }
+    footer { padding: 48px 0 64px; color: var(--muted); }
+    .footer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: end; }
+    .small { font-size: .86rem; color: var(--muted); }
+    @media (max-width: 860px) {
+      .hero { padding-top: 72px; }
+      .hero-meta, .grid.three, .grid.two, .pipeline, .split, .footer-grid { grid-template-columns: 1fr; }
+      nav .shell { min-height: auto; padding-top: 18px; padding-bottom: 18px; align-items: flex-start; flex-direction: column; }
+      h1 { font-size: clamp(2.8rem, 16vw, 4.7rem); }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="shell">
+      <a class="brand" href="/">Pact<span>.</span></a>
+      <div class="nav-links">
+        <a href="#why">Why Pact</a>
+        <a href="#workflow">Workflow</a>
+        <a href="#readiness">Readiness</a>
+        <a href="/docs/">Docs</a>
+        <a href="https://github.com/jmcentire/pact" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <div class="shell">
+        <div class="eyebrow">v1.1.0 · readiness and production gates</div>
+        <h1>Contracts before code.<br><span>Tests as law.</span></h1>
+        <p class="hero-copy">Pact is a contract-first AI software engineering framework. It decides architecture, interfaces, tests, operational maturity, security, privacy, compliance, gates, and monitoring before implementation starts.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="/docs/">Read the docs</a>
+          <a class="button" href="https://github.com/jmcentire/pact" target="_blank" rel="noopener noreferrer">View source</a>
+          <a class="button" href="https://pypi.org/project/pact-agents/" target="_blank" rel="noopener noreferrer">Install from PyPI</a>
+        </div>
+        <div class="hero-meta">
+          <div class="metric"><strong>Plan-first</strong><span>Contracts and tests before implementation</span></div>
+          <div class="metric"><strong>Claude + Codex</strong><span>Native handoff and implementation paths</span></div>
+          <div class="metric"><strong>Typed readiness</strong><span>Security, privacy, compliance, gating, testing</span></div>
+          <div class="metric"><strong>Mechanical gates</strong><span>Production evidence, drift checks, review, audit</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="why">
+      <div class="shell">
+        <h2>AI can write code quickly. It cannot be trusted to define its own boundaries.</h2>
+        <p class="section-intro">The expensive part of software is not generating code. It is deciding what the system must do, what it must never do, what evidence proves it, and what happens when production disagrees. Pact makes those decisions first.</p>
+        <div class="grid three">
+          <div class="card"><span class="tag">01</span><h3>Architecture first</h3><p>Tasks decompose into explicit components with typed contracts, dependencies, side effects, authority boundaries, and acceptance criteria.</p></div>
+          <div class="card"><span class="tag">02</span><h3>Tests first</h3><p>Every contract gets executable tests before implementation. Agents can race, iterate, or fail; the contract remains the judge.</p></div>
+          <div class="card"><span class="tag">03</span><h3>Evidence first</h3><p>Production readiness is not a vibe. It is a file-backed pack of control mapping, trust assertions, threat model, preflight, live validation, and drift checks.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="workflow">
+      <div class="shell">
+        <h2>One pipeline. Explicit gates.</h2>
+        <p class="section-intro">Pact defaults to plan-only. The active Claude or Codex agent implements after the plan exists, or Pact can own implementation explicitly with <code>--implement</code>.</p>
+        <div class="pipeline">
+          <div class="phase"><b>01</b><span>Interview and shape the task</span></div>
+          <div class="phase"><b>02</b><span>Resolve readiness and assumptions</span></div>
+          <div class="phase"><b>03</b><span>Decompose into contracts</span></div>
+          <div class="phase"><b>04</b><span>Generate tests and validate</span></div>
+          <div class="phase"><b>05</b><span>Implement, integrate, review</span></div>
+          <div class="phase"><b>06</b><span>Certify and ship with evidence</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="readiness">
+      <div class="shell split">
+        <div>
+          <h2>Readiness is now a typed input, not a late-stage argument.</h2>
+          <p class="section-intro">Every new project gets a default profile, and every AI-authored build spec can override it. Pact then asks the human to confirm the actual bar before decomposition or contract authoring starts.</p>
+          <ul class="list">
+            <li><strong>Operational maturity:</strong> runbook, rollback, SLOs, escalation, audit evidence.</li>
+            <li><strong>Security:</strong> least privilege, threat model, dependency scanning, separation of duties.</li>
+            <li><strong>Privacy and compliance:</strong> retention, lawful basis, DPIA, evidence mapping, approvals.</li>
+            <li><strong>Gating, testing, monitoring:</strong> release checks, negative-path tests, alerts, dashboards, live validation.</li>
+          </ul>
+        </div>
+        <pre><code>version: "1"
+task: |
+  Build a tenant-scoped booking API.
+readiness:
+  security: strict
+  privacy: standard
+  compliance: basic
+config:
+  build_mode: hierarchy
+  budget: 25</code></pre>
+      </div>
+    </section>
+
+    <section>
+      <div class="shell">
+        <h2>Production is a separate gate, not an afterthought.</h2>
+        <p class="section-intro">The optional production pack is file-backed and machine-checkable. It rejects stale source fingerprints, missing evidence, placeholder records, broken live validation, and readiness drift from the project config.</p>
+        <div class="grid three">
+          <div class="card"><h3>Trust assertions</h3><p>State what is trusted, what is external, and what evidence supports the claim.</p></div>
+          <div class="card"><h3>Control matrix</h3><p>Map security, privacy, compliance, testing, and operational controls to evidence.</p></div>
+          <div class="card"><h3>Live validation</h3><p>Prove the deployed system matches the artifact pack rather than merely claiming it does.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="shell split">
+        <div>
+          <h2>Start with the smallest honest command.</h2>
+          <p class="section-intro">Pact is useful when the problem has real boundaries, real risk, or real operational consequences. If a single agent can safely do it in one pass, use the single agent.</p>
+          <div class="hero-actions"><a class="button primary" href="/docs/">Quick start</a><a class="button" href="https://github.com/jmcentire/pact#configuration" target="_blank" rel="noopener noreferrer">Configuration</a></div>
+        </div>
+        <pre><code>pip install pact-agents
+pact init my-project --spec ai-build-spec.yaml
+pact interview my-project
+pact run my-project
+
+# Optional production gate
+pact production init my-project
+pact production validate my-project</code></pre>
+      </div>
+    </section>
+
+    <section>
+      <div class="shell">
+        <h2>Part of the broader tool suite.</h2>
+        <p class="section-intro">Pact is the planning and contract layer. The rest of the suite covers registry, identity, memory, relay, simulation, and governance.</p>
+        <div class="suite">
+          <a href="https://exemplar.tools" target="_blank" rel="noopener noreferrer">exemplar.tools</a>
+          <a href="https://signet.tools" target="_blank" rel="noopener noreferrer">signet.tools</a>
+          <a href="https://kindex.tools" target="_blank" rel="noopener noreferrer">kindex.tools</a>
+          <a href="https://centaur.tools" target="_blank" rel="noopener noreferrer">centaur.tools</a>
+          <a href="https://herald.tools" target="_blank" rel="noopener noreferrer">herald.tools</a>
+          <a href="https://simulacrum.tools" target="_blank" rel="noopener noreferrer">simulacrum.tools</a>
+          <a href="https://reeve.tools" target="_blank" rel="noopener noreferrer">reeve.tools</a>
+          <a class="current" href="https://pact.tools">pact.tools</a>
+          <a href="https://perardua.dev" target="_blank" rel="noopener noreferrer">perardua.dev</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="shell footer-grid">
+      <div>
+        <div class="brand">Pact<span>.</span></div>
+        <p class="small">Contract-first AI software engineering. MIT licensed. Built by Jeremy McEntire.</p>
+      </div>
+      <div class="small">Documentation: <a href="/docs/">pact.tools/docs</a> · Source: <a href="https://github.com/jmcentire/pact" target="_blank" rel="noopener noreferrer">GitHub</a> · Package: <a href="https://pypi.org/project/pact-agents/" target="_blank" rel="noopener noreferrer">PyPI</a></div>
+    </div>
+  </footer>
+</body>
+</html>

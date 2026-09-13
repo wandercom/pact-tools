@@ -1,6 +1,6 @@
 # pact.tools
 
-Static landing page and docs mirror for [Pact](https://github.com/jmcentire/pact), the contract-first AI software engineering framework.
+Static landing page and docs mirror for [Pact](https://github.com/wandercom/pact), the contract-first AI software engineering framework.
 
 ## Local preview
 
